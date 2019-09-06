@@ -5,28 +5,25 @@
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <meta http-equiv='X-UA-Compatible' content='ie=edge'>
-    <title>Fwdays scan QR 0.6</title>
+    <title>Fwdays scan QR 0.7</title>
     <style>
-        #video {
-            z-index: 2;
-        }
 
         .controls {
             margin-top: 20px;
             display: flex;
         }
 
-        canvas {
-            position: absolute;
-            top: 0;
-            left: -9999px;
-            z-index: 0;
+
+        .link {
+            font-size: 25px;
+            background: #fff;
         }
     </style>
 </head>
 
 <body>
     <div id='camera'>
+        <div class='link'></div>
         <video id="video"></video>
         <div class='controls'>
             <button class='stop'>Stop Camera</button>
@@ -112,7 +109,10 @@
                 if (res) {
                     const url = new URL(res, 'https://fwdays.com');
                     if (url.href) {
+                        console.log(url.href);
                         window.open(url.href, '_blank');
+      
+                        document.querySelector('.link').innerHTML = `<a href="${url.href}" target="_blank">${url.href}</a>`
                     }
                 }
             });
