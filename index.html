@@ -47,9 +47,10 @@
         const constraints = {
             audio: false,
             video: {
-                width: 800,
-                height: 600,
-                facingMode: "environment"
+                width: 400,
+                height: 400,
+                facingMode: "environment",
+                frameRate: { ideal: 10, max: 15 }
             }
         };
         const video = document.querySelector('#video');
