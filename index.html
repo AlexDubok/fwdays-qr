@@ -53,7 +53,16 @@
             }
         };
         const video = document.querySelector('#video');
-
+        function startCamera(params) {
+            navigator.mediaDevices.getUserMedia(constraints)
+                .then(function (mediaStream) {
+                    video.srcObject = mediaStream;
+                    video.onloadedmetadata = function (e) {
+                        video.play();
+                    };
+                })
+                .catch(function (err) { console.log(err.name + ": " + err.message); });
+        }
         document.querySelector('.stop').addEventListener('click', (e) => {
             document.querySelector('video').srcObject.getTracks().forEach(track => track.stop());
         })
@@ -70,6 +79,7 @@
                     }
                 }
             });
+        startCamera();
     </script>
 </body>
 
