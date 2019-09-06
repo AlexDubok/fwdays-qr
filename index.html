@@ -5,7 +5,7 @@
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <meta http-equiv='X-UA-Compatible' content='ie=edge'>
-    <title>Fwdays scan QR 0.5</title>
+    <title>Fwdays scan QR 0.6</title>
     <style>
         #video {
             z-index: 2;
@@ -47,10 +47,10 @@
         const constraints = {
             audio: false,
             video: {
-                width: 250,
-                height: 250,
+                width: 400,
+                height: 400,
                 facingMode: "environment",
-                frameRate: { max: 30 },
+                frameRate: { max: 25 },
             }
         };
         const video = document.querySelector('#video');
