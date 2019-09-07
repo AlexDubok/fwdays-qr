@@ -104,15 +104,18 @@
             startCamera();
         })
 
+        const cache = {};
+
         QCodeDecoder()
             .decodeFromVideo(video, function (er, res) {
                 if (res) {
                     const url = new URL(res, 'https://fwdays.com');
                     if (url.href) {
-                        console.log(url.href);
-                        window.open(url.href, '_blank');
-      
-                        document.querySelector('.link').innerHTML = `<a href="${url.href}" target="_blank">${url.href}</a>`
+                        document.querySelector('.link').innerHTML = `<a href="${url.href}"target="_blank">${url.href}</a>`
+                        if (!cache[url.href]) {
+                            cache[url.href] = true;
+                            window.open(url.href, '_blank');
+                        }
                     }
                 }
             });
