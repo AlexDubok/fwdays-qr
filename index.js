@@ -1,14 +1,26 @@
 const video = document.createElement("video");
 const canvasElement = document.getElementById('canvas');
+const actionButton = document.getElementById('action');
+const helperButton = document.querySelector('button.info');
 const canvas = canvasElement.getContext('2d');
 const linkContainer = document.querySelector('.link-container');
 const constraints = {
     video: {
-        width: 400,
-        height: 400,
         facingMode: "environment",
     }
 };
+
+helperButton.classList.toggle('hidden', true);
+
+TEXT_START = 'Start Camera';
+TEXT_STOP = 'Stop Camera';
+
+function stopCamera() {
+    video.srcObject.getTracks().forEach(track => track.stop());
+    actionButton.innerText = TEXT_START;
+    actionButton.classList.toggle('start', true);
+    actionButton.classList.toggle('stop', false);
+}
 
 function startCamera(params) {
     navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
@@ -16,22 +28,27 @@ function startCamera(params) {
         video.setAttribute("playsinline", true);
         video.play();
         requestAnimationFrame(tick);
+        actionButton.innerText = TEXT_STOP;
+        actionButton.classList.toggle('start', false);
+        actionButton.classList.toggle('stop', true);
     });
 }
 
-document.querySelector('.start').addEventListener('click', (e) => {
+function clearLinkContainer() {
     linkContainer.innerHTML = '';
+    helperButton.classList.toggle('hidden', true);
+}
+
+actionButton.addEventListener('click', (e) => {
+    clearLinkContainer();
+    if (video.srcObject && video.srcObject.active) {
+        return stopCamera();
+    }
     startCamera();
 })
 
-document.querySelector('.stop').addEventListener('click', (e) => {
-    video.srcObject.getTracks().forEach(track => track.stop());
-    linkContainer.innerHTML = '';
-})
-
-linkContainer.addEventListener('click', (e) => {
-    linkContainer.innerHTML = '';
-})
+linkContainer.addEventListener('click', clearLinkContainer);
+helperButton.addEventListener('click', clearLinkContainer)
 
 function drawLine(begin, end, color) {
     canvas.beginPath();
@@ -60,6 +77,8 @@ function tick() {
             drawLine(code.location.bottomLeftCorner, code.location.topLeftCorner, "#FF3B58");
             linkContainer.hidden = false;
             linkContainer.innerText = code.data;
+            helperButton.classList.toggle('hidden', false);
+            
             const url = new URL(code.data, 'https://fwdays.com');
             if (url.href) {
                 linkContainer.innerHTML = `<a href="${url.href}"target="_blank">${url.href}</a>`
