@@ -11,9 +11,20 @@ const constraints = {
 };
 
 helperButton.classList.toggle('hidden', true);
+linkContainer.addEventListener('click', clearLinkContainer);
+helperButton.addEventListener('click', clearLinkContainer)
+actionButton.addEventListener('click', handleActionButtonClick);
 
 TEXT_START = 'Start Camera';
 TEXT_STOP = 'Stop Camera';
+
+function handleActionButtonClick(e) {
+    clearLinkContainer();
+    if (video.srcObject && video.srcObject.active) {
+        return stopCamera();
+    }
+    startCamera();
+}
 
 function stopCamera() {
     video.srcObject.getTracks().forEach(track => track.stop());
@@ -38,17 +49,6 @@ function clearLinkContainer() {
     linkContainer.innerHTML = '';
     helperButton.classList.toggle('hidden', true);
 }
-
-actionButton.addEventListener('click', (e) => {
-    clearLinkContainer();
-    if (video.srcObject && video.srcObject.active) {
-        return stopCamera();
-    }
-    startCamera();
-})
-
-linkContainer.addEventListener('click', clearLinkContainer);
-helperButton.addEventListener('click', clearLinkContainer)
 
 function drawLine(begin, end, color) {
     canvas.beginPath();

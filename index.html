@@ -52,7 +52,7 @@
             font-size: 16px;
             border-radius: 5px;
             border: 2px solid;
-            padding: 5px;
+            padding: 10px 15px;
             border-color: currentColor;
         }
 
@@ -91,13 +91,17 @@
             font-size: 20px;
             word-break: break-all;
         }
-
         .link-container:empty {
             visibility:hidden;
         }
 
         .link-container a {
             color: rgb(var(--color-blue));
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .hidden {
