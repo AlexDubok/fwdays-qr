@@ -9,6 +9,7 @@ const constraints = {
         facingMode: "environment",
     }
 };
+let timerId;
 
 linkContainer.addEventListener('click', clearLinkContainer);
 startButton.addEventListener('click', startCamera);
@@ -35,7 +36,7 @@ function startCamera(params) {
         video.srcObject = stream;
         video.setAttribute("playsinline", true);
         video.play();
-        requestAnimationFrame(tick);
+        timerId = requestAnimationFrame(tick);
     });
 }
 
@@ -74,8 +75,13 @@ function tick() {
             const url = new URL(code.data, 'https://fwdays.com');
             if (url.href) {
                 linkContainer.innerHTML = `<a href="${url.href}"target="_blank">${url.href}</a>`
+                cancelAnimationFrame(timerId)
+                stopCamera();
+                timerId = null;
             }
         }
     }
-    requestAnimationFrame(tick);
+    if (timerId) {
+        timerId = requestAnimationFrame(tick);
+    }
 }
